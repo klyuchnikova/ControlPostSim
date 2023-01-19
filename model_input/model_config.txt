@@ -1,0 +1,16 @@
+CONFIG_SIM_NAME: sim_1
+CONFIG_MAP_PATH: /home/ulyana/Desktop/Experiments/model_input/map_config.txt
+CONFIG_DROP_BOX_PATH: home/ulyana/Desktop/Experiments/model_input/drop_box_config.txt
+CONFIG_ROBOT_PATH: /home/ulyana/Desktop/Experiments/model_input/robot_config.txt
+CONFIG_PACKAGE_PATH: /home/ulyana/Desktop/Experiments/model_input/package_config.txt
+CONFIG_MODEL_MOD: 0
+CONFIG_LOGGING_PATH: /home/ulyana/Desktop/Experiments/model_output
+CONFIG_LOGGING_MOD: t
+g_robot_calc_time: 0.001
+g_robot_wait_time: 0.5
+g_robot_move_time: 0.5
+g_robot_round_time: 3
+g_robot_load_time: 5
+g_robot_unload_time: 15
+g_robot_charge_time: 720
+g_tick_duration: 1

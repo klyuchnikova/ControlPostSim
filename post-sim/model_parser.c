@@ -2,7 +2,7 @@
 
 void PrintMap()
 {
-    printf("map [%d, %d]\n", map.height, map.width);
+    printf("Printing map [%d, %d]\n", map.height, map.width);
     for (int y = 0; y < map.height; ++y)
     {
         for (int x = 0; x < map.width; ++x)
@@ -101,7 +101,7 @@ char CONFIG_DROP_BOX_PATH[MAX_STRING_LEN] = "";
 char CONFIG_ROBOT_PATH[MAX_STRING_LEN] = "";
 char CONFIG_PACKAGE_PATH[MAX_STRING_LEN] = "";
 
-char CONFIG_MODEL_MOD [MAX_STRING_LEN] = "";
+int8_t CONFIG_MODEL_MOD = 0;
 char CONFIG_LOGGING_PATH [MAX_STRING_LEN] = "";
 int8_t CONFIG_LOGGING_MOD = 0;
 
@@ -121,7 +121,7 @@ void read_config(char *path)
     fscanf(f, "CONFIG_DROP_BOX_PATH: %s\n", CONFIG_DROP_BOX_PATH); // absolute path
     fscanf(f, "CONFIG_ROBOT_PATH: %s\n", CONFIG_ROBOT_PATH);       // absolute path
     fscanf(f, "CONFIG_PACKAGE_PATH: %s\n", CONFIG_PACKAGE_PATH);   // absolute path
-    fscanf(f, "CONFIG_MODEL_MOD: %d\n", CONFIG_MODEL_MOD);         // uselell right now
+    fscanf(f, "CONFIG_MODEL_MOD: %d\n", &CONFIG_MODEL_MOD);         // uselell right now
     fscanf(f, "CONFIG_LOGGING_PATH: %s\n", CONFIG_LOGGING_PATH);   // absolute path
     fscanf(f, "CONFIG_LOGGING_MOD: %s\n", buf);                    // t for true, f for false
     if (strcmp(buf, "f") == 0 && strcmp(buf, "t") == 0)
@@ -153,20 +153,21 @@ void read_robots(char *path)
         fclose(f);
         exit(1);
     }
-    int8_t direction;
+    int direction;
     int robot_id = 0;
     for (int i = 0; i < map.width; ++i)
     {
         for (int j = 0; j < map.height; ++j)
         {
-            if (scanf("%d", &robots.data[robot_id].direction) == 0)
+            if (fscanf(f, "%d", &direction) == 0)
             {
                 printf("Can't load robots, configuration file doesn't fit the map");
                 fclose(f);
                 exit(1);
             }
-            if (robots.data[robot_id].direction < 4)
+            if (direction < 4)
             {
+                robots.data[robot_id].direction = direction;
                 robots.data[robot_id].x = i;
                 robots.data[robot_id].y = j;
                 RoomAddRobot(&map, &(robots.data[robot_id]));
@@ -175,6 +176,7 @@ void read_robots(char *path)
         }
     }
     robots.N = robot_id;
+    printf("Loaded robots, total: %d\n", robots.N);
     fclose(f);
 }
 
@@ -215,7 +217,7 @@ void read_map(char *path)
     {
         for (int j = 0; j < map.height; ++j)
         {
-            if (fscanf("%d", &type_id) == 0)
+            if (fscanf(f, "%d", &type_id) == 0)
             {
                 printf("Can't init map, wrong data");
                 fclose(f);
@@ -269,20 +271,18 @@ void read_cargo(char *path)
         cargo_gen.cargos_current[i] = -1;
     }
 
-    /*
+    
     for (int i = 0; i < cargo_gen.cargo_total; ++i)
     {
         id = rand() % cargo_gen.receivers_total;
         cargo_gen.receiver_timetable[id][++cargo_gen.cargos_current[id]] = i;
     }
 
-    for (int i = 0; i < 10; ++i)
+    for (int i = 0; i < 5; ++i)
     {
-        printf("receiver 0; time: %4d; num: %2d\n",
+        printf("\treceiver 0; time: %4d; num: %2d\n",
                cargo_gen.cargo_timetable[i][0], cargo_gen.cargo_timetable[i][1]);
     }
-    */
-    printf(" ...\n");
     
 }
 
