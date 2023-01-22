@@ -2,14 +2,22 @@
 #include <string.h>
 #include <libxml/parser.h>
 
+
+
 int main() {
     xmlDoc *document;
     xmlNode *root, *first_child, *node;
     xmlChar* key;
     char *filename;
 
-    filename = "example.xml";
+    filename = "/home/ulyana/Desktop/Experiments/model_input/skladConfig2.xml";
     document = xmlReadFile(filename, NULL, 0);
+
+    if (document == NULL) {
+        printf("Nope\n");
+        return 1;
+    }
+
     root = xmlDocGetRootElement(document);
     printf("Root is <%s> (%i)\n", root->name, root->type);
     first_child = root->children;

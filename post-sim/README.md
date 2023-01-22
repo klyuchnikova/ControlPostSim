@@ -1,6 +1,12 @@
+# Requirements
+sudo apt-get install libxml2
+
+Also you might need to link this library by hand (at least i had this problem at first). In that case also pay attention to the CMake file as the library is being linked to model.h using system path
+
 # My code
 Firstly,
-this code reads a table of numbers from a .csv file and fills a 2D array with these numbers. `void parse(char* path);` function from `model_parser.c` does this (`path` is the path to the .csv file). Global `struct Room map` is represented below.
+this code reads an xml file with `void read_config(char* path);` function from `model_parser.c` (`path` is the global path to the .xml file). Global `struct Room map` is represented below.
+
 ```
 struct Room {
 	int data[MAX_ROOM_HEIGHT][MAX_ROOM_LENGTH];

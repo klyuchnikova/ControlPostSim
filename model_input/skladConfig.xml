@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<StorageConfig>
+  <simName>sim_example</simName>
+  <zoneSize>1</zoneSize>
+  <unitSize>1</unitSize>
+  <safeUnitSize>1</safeUnitSize>
+  <unitSpeed>3</unitSpeed>
+  <unitAccelerationTime>0</unitAccelerationTime>
+  <unitStopTime>0</unitStopTime>
+  <unitRotateTime>4</unitRotateTime>
+  <unitAccelerationEnergy>10</unitAccelerationEnergy>
+  <unitStopEnergy>1</unitStopEnergy>
+  <unitMoveEnergy>1</unitMoveEnergy>
+  <unitRotateEnergy>3</unitRotateEnergy>
+  <loadTime>2</loadTime>
+  <unloadTime>1</unloadTime>
+  <unitLoadEnergy>0.05</unitLoadEnergy>
+  <unitUnloadEnergy>0.05</unitUnloadEnergy>
+  <unitWaitEnergy>0.005</unitWaitEnergy>
+  <unitChargeTime>720</unitChargeTime>
+  <unitChargeValue>7200</unitChargeValue>
+  <unitCount>1</unitCount>
+  <storageLayout>map_config.txt</storageLayout>
+  <botLayout>bot_config.txt</botLayout>
+  <logPath>..\model_output</logPath>
+</StorageConfig>

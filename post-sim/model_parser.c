@@ -1,15 +1,107 @@
 #include "model.h"
 
-void PrintMap()
+#include <libxml/parser.h>
+
+int zoneSize = 0;
+int unitSize = 0;
+int safeUnitSize =0;
+float unitSpeed= 0;
+float unitAccelerationTime = 0;
+float unitStopTime = 0;
+float unitRotateTime = 0;
+float unitAccelerationEnergy = 0;
+float unitMoveEnergy = 0;
+float unitRotateEnergy = 0;
+float loadTime = 0;
+float unloadTime = 0;
+float unitLoadEnergy = 0;
+float unitUnloadEnergy = 0;
+float unitWaitEnergy = 0;
+float unitChargeTime = 0;
+double unitChargeValue = 0;
+float unitCount = 0;
+char storageLayout [MAX_STRING_LEN] = "";
+char botLayout [MAX_STRING_LEN] = "";
+char logPath [MAX_STRING_LEN] = "";
+char simName [MAX_STRING_LEN] = "";
+
+
+void read_config(char *path)
 {
-    printf("Printing map [%d, %d]\n", map.height, map.width);
-    for (int y = 0; y < map.height; ++y)
+    printf("Loading configuration file\n");
+    
+    xmlDoc *document;
+    xmlNode *root, *first_child, *node;
+    xmlChar* key;
+
+    document = xmlReadFile(path, NULL, 0);
+
+    if (document == NULL)
     {
-        for (int x = 0; x < map.width; ++x)
-            printf("%d ", map.data[y][x].type);
-        printf("\n");
+        printf("Can't read configuration file: %s\n", path);
+        assert(0); // instead of throw to force quit
     }
+
+    root = xmlDocGetRootElement(document);
+    assert(strcmp(root->name, "StorageConfig") == 0);
+    first_child = root->children;
+    for (node = first_child; node; node = node->next)  {
+        if (node->type == 1) {
+            key = xmlNodeGetContent(node);
+            if (strcmp(node->name, "zoneSize") == 0){
+                assert(sscanf((char*)key, "%d", &zoneSize));
+            } else if (strcmp(node->name, "unitSize") == 0){
+                assert(sscanf((char*)key, "%d", &unitSize));
+            } else if (strcmp(node->name, "safeUnitSize") == 0){
+                assert(sscanf((char*)key, "%d", &safeUnitSize));
+            } else if (strcmp(node->name, "unitSpeed") == 0){
+                assert(sscanf((char*)key, "%f", &unitSpeed));
+            } else if (strcmp(node->name, "unitAccelerationTime") == 0){
+                assert(sscanf((char*)key, "%f", &unitAccelerationTime));
+            } else if (strcmp(node->name, "unitStopTime") == 0){
+                assert(sscanf((char*)key, "%f", &unitStopTime));
+            } else if (strcmp(node->name, "unitRotateTime") == 0){
+                assert(sscanf((char*)key, "%f", &unitRotateTime));
+            } else if (strcmp(node->name, "unitAccelerationEnergy") == 0){
+                assert(sscanf((char*)key, "%f", &unitAccelerationEnergy));
+            } else if (strcmp(node->name, "unitMoveEnergy") == 0){
+                assert(sscanf((char*)key, "%f", &unitMoveEnergy));
+            } else if (strcmp(node->name, "unitRotateEnergy") == 0){
+                assert(sscanf((char*)key, "%f", &unitRotateEnergy));
+            } else if (strcmp(node->name, "loadTime") == 0){
+                assert(sscanf((char*)key, "%f", &loadTime));
+            } else if (strcmp(node->name, "unloadTime") == 0){
+                assert(sscanf((char*)key, "%f", &unloadTime));
+            } else if (strcmp(node->name, "unitLoadEnergy") == 0){
+                assert(sscanf((char*)key, "%f", &unitLoadEnergy));
+            } else if (strcmp(node->name, "unitUnloadEnergy") == 0){
+                assert(sscanf((char*)key, "%f", &unitUnloadEnergy));
+            } else if (strcmp(node->name, "unitWaitEnergy") == 0){
+                assert(sscanf((char*)key, "%f", &unitWaitEnergy));
+            } else if (strcmp(node->name, "unitChargeTime") == 0){
+                assert(sscanf((char*)key, "%f", &unitChargeTime));
+            } else if (strcmp(node->name, "unitChargeValue") == 0){
+                assert(sscanf((char*)key, "%lf", &unitChargeValue));
+            } else if (strcmp(node->name, "unitCount") == 0){
+                assert(sscanf((char*)key, "%f", &unitCount));
+            } else if (strcmp(node->name, "storageLayout") == 0){
+                assert(sscanf((char*)key, "%s", storageLayout));
+            } else if (strcmp(node->name, "botLayout") == 0){
+                assert(sscanf((char*)key, "%s", botLayout));
+            } else if (strcmp(node->name, "logPath") == 0){
+                assert(sscanf((char*)key, "%s", logPath));
+            } else if (strcmp(node->name, "simName") == 0){
+                assert(sscanf((char*)key, "%s", simName));
+            }
+        }
+    }
+    printf("Configuration loaded\n");
 }
+
+/*
+
+// Converts a CSV file to a 2D int array
+
 
 const char *getfiekd(char *line, int num)
 {
@@ -24,9 +116,7 @@ const char *getfiekd(char *line, int num)
     return NULL;
 }
 
-// Converts a CSV file to a 2D int array
 
-/*
 void parse(char* path)
 {
     struct stat stats;
@@ -63,6 +153,7 @@ void parse(char* path)
 
 void RoomAddRobot(struct Room *this, struct Robot *r)
 {
+    assert(!this->data[r->y][r->x].robot);
     this->data[r->y][r->x].robot = r;
 }
 
@@ -105,6 +196,7 @@ int8_t CONFIG_MODEL_MOD = 0;
 char CONFIG_LOGGING_PATH [MAX_STRING_LEN] = "";
 int8_t CONFIG_LOGGING_MOD = 0;
 
+/*
 void read_config(char *path)
 {
     printf("Loading config file\n");
@@ -113,7 +205,7 @@ void read_config(char *path)
     {
         printf("Can't read configuration file %s", path);
         fclose(f);
-        return 1;
+        assert(0);
     }
     char buf[MAX_STRING_LEN];
     fscanf(f, "CONFIG_SIM_NAME: %s\n", CONFIG_SIM_NAME);           // string name to use in logs
@@ -135,6 +227,7 @@ void read_config(char *path)
 
     printf("Loaded config with:\n\tmap: %s\n\trobots: %s\n", CONFIG_MAP_PATH, CONFIG_ROBOT_PATH);
 }
+*/
 
 void read_robots(char *path)
 {
@@ -211,7 +304,7 @@ void read_map(char *path)
         fclose(f);
         exit(1);
     }
-    printf("map width: %d, map height: %d\n", map.width, map.height);
+    printf("Map width: %d, map height: %d\n", map.width, map.height);
     int type_id;
     for (int i = 0; i < map.width; ++i)
     {
@@ -219,7 +312,7 @@ void read_map(char *path)
         {
             if (fscanf(f, "%d", &type_id) == 0)
             {
-                printf("Can't init map, wrong data");
+                printf("Can't init map, wrong data\n");
                 fclose(f);
                 exit(1);
             }
@@ -308,5 +401,16 @@ void RobotsPrint()
             printf("RIGHT\n");
             break;
         }
+    }
+}
+
+void PrintMap()
+{
+    printf("Printing map [%d, %d]\n", map.height, map.width);
+    for (int y = 0; y < map.height; ++y)
+    {
+        for (int x = 0; x < map.width; ++x)
+            printf("%d ", map.data[y][x].type);
+        printf("\n");
     }
 }

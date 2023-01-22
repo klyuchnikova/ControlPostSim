@@ -42,6 +42,10 @@ const tw_optdef model_opts[] = {
 int model_main (int argc, char* argv[]) {
 	tw_opt_add(model_opts);
 	tw_init(&argc, &argv);
+
+    char* filename = "/home/ulyana/Desktop/Experiments/model_input/skladConfig2.xml";
+    read_xml_config(filename);
+
     //parse(configuration_path);
     read_config(configuration_path);
     read_map(CONFIG_MAP_PATH);

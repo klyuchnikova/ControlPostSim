@@ -4,6 +4,9 @@ INCLUDE_DIRECTORIES(${ROSS_SOURCE_DIR} ${ROSS_BINARY_DIR})
 ## If you will be using the RIO library add this
 #INCLUDE_DIRECTORIES(${RIO_SOURCE_DIR} ${RIO_BINARY_DIR})
 
+find_package(LibXml2 REQUIRED)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/model_config.h ${LIBXML2_INCLUDE_DIR})
+
 ## Model Version
 LIST(APPEND CMAKE_MODULE_PATH "${ROSS_SOURCE_DIR}/cmake/")
 INCLUDE(GetGitRevisionDescription)
@@ -30,5 +33,7 @@ SET(model_srcs
 ADD_EXECUTABLE(post_sim ${model_srcs})
 
 TARGET_LINK_LIBRARIES(post_sim ROSS m)
+target_link_libraries(post_sim ${LIBXML2_LIBRARIES})
+
 ## Alternatively, use this command with RIO
 #TARGET_LINK_LIBRARIES(model ROSS RIO m)
