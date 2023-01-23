@@ -20,7 +20,9 @@
   <unitChargeTime>720</unitChargeTime>
   <unitChargeValue>7200</unitChargeValue>
   <unitCount>1</unitCount>
-  <storageLayout>map_config.txt</storageLayout>
-  <botLayout>bot_config.txt</botLayout>
-  <logPath>..\model_output</logPath>
+  <storageLayout>/home/ulyana/Desktop/Experiments/RossPostSim/model_input/WMS-map.csv</storageLayout>
+  <botLayout>/home/ulyana/Desktop/Experiments/RossPostSim/model_input/WMS-robots.xml</botLayout>
+  <targetLayout>/home/ulyana/Desktop/Experiments/RossPostSim/model_input/WMS-targets.txt</targetLayout>
+  <packageConfig>/home/ulyana/Desktop/Experiments/RossPostSim/model_input/WMS-income.txt</packageConfig>
+  <logPath>/home/ulyana/Desktop/Experiments/RossPostSim/model_output</logPath>
 </StorageConfig>

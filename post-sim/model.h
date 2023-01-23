@@ -78,17 +78,18 @@ typedef enum {
 struct Robot {
     int x;
     int y;
-    Direction direction;  
     int package_id; // id_in_line
+    float charge;
+    Direction direction;
 };
 
 typedef enum {
-  EMPTY,
-  WALL,
-  SENDER,
-  CHARGER, 
-  RECEIVER,
-  DROP
+  EMPTY = 0,
+  WALL = 1,
+  SENDER = 2,
+  CHARGER = 3, 
+  RECEIVER = 4,
+  DROP = 5
 } TileType; 
 
 struct Cell {
